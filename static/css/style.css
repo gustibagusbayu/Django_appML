@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+body{
+    font-family: 'Poppins';
+}
+.nav-link{
+    text-decoration: none;
+    color: white;
+    font-weight: 400;
+}
+.nav-link:hover{
+    color: orange;
+}
+.nav-item{
+    padding-right: 52px;
+    margin-left: -20px;
+}
+.navbar{
+    background-color: black;
+}
+.active{
+    color: orange !important;
+}
+
+/* PREPROCESSING */
+.noted {
+    font-size: smaller;
+    margin-bottom: -10px;
+}
+.info>p{
+    font-weight: 700;
+}
+.box__info{
+    border: solid black;
+    border-radius: 10px;
+    width: 550px;
+    height: 120px;
+    margin-top: -10px;
+}
+.box__info p{
+    display: inline-block;
+    padding-right: 65px;
+    margin: 12px;
+}
+
+.attributes>p{
+    font-weight: 700;
+}
+.box__attributes{
+    border: solid black;
+    border-radius: 10px;
+    width: 550px;
+    height: 200px;
+    margin-top: -10px;
+}
+.box__attributes p{
+    display: inline-block;
+    padding-right: 65px;
+    margin: 12px;
+}
+.scrollAble{
+    overflow-y: scroll;
+    width: 535px;
+    height: 180px;
+}
+.scrollAble table{
+    padding-top: 10px;
+    margin-top: 20px;
+    margin: 12px;
+    width: 520px;
+    height: 180;
+}
+.table_attr{
+    font-size: 12px;
+    margin-top: 15px !important;
+}
+.uploaded{
+    margin-top: 30px;
+}
+.detail{
+    margin-top: -70px;
+}
+.detail>p{
+    font-weight: 700;
+    padding-right: 187px;
+}
+.detail>p, .view, .delete{
+    display: inline-block;
+}
+.radio, .select{
+    display: inline;
+}
+.radio{
+    margin-left: 180px;
+    margin-top: 5px;
+}
+.select{
+    margin-top: 5px;
+}
+.box__detail{
+    border: solid black;
+    border-radius: 10px;
+    width: 550px;
+    height: 250px;
+    margin-top: -10px;
+}
+.box__detail>.scroll>table{
+    margin: 12px;
+    width: 520px;
+    cursor: pointer;
+}
+
+.selectedTable > tbody > tr:hover > td,
+.selectedTable > tbody > tr:hover > th {
+    background-color: rgb(107, 107, 107);
+    color: white;
+}
+
+.scroll{
+    height: 235px;
+    overflow-y: scroll;
+    width: 535px;
+}
+.scrollAblee{
+    height: 280px;
+    overflow-y: scroll;
+}
+/* END PREPROCESSING */
+
+/* CLASSIFICATION */
+.starts{
+    margin-top: -38px;
+    float: right;
+}
+.method{
+    margin-top: 35px;
+}
+.scrollClass{
+    height: 365px;
+    margin: 15px;
+    overflow-y: scroll;
+}
+.method>p{
+    font-weight: 700;
+    margin-top: 7px;
+}
+.option>p{
+    font-weight: 700;
+}
+.modal-body>p{
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+.box__option{
+    border: solid black;
+    border-radius: 10px;
+    width: 360px;
+    height: 120px;
+    margin-top: -10px;
+}
+.results>p{
+    font-weight: 700;
+}
+.box__results{
+    border: solid black;
+    border-radius: 10px;
+    width: 735px;
+    height: 400px;
+    margin-top: -10px;
+}
+.box__results p{
+    padding-right: 115px;
+    margin: 12px;
+}
+.n_neuron, .activation{
+    display: inline-block;
+}
+.save {
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.models{
+    margin-top: -280px;
+}
+.models>p{
+    font-weight: 700;
+}
+.box__models{
+    border: solid black;
+    border-radius: 10px;
+    width: 360px;
+    height: 250px;
+    margin-top: -10px;
+}
+.btn-group{
+    width: 750px !important;
+    text-align: right !important;
+}
+.dropdown-menu{
+    width: 750px;
+}
+.start{
+    float: right;
+}
+.box__option>.form-check{
+    padding-left: 40px;
+    padding-top: 12px;
+}
+span{
+    color: lightslategrey;
+}
+.radio{
+    margin-top: 11.5px;
+}
+.fold{
+    padding-left: 12px;
+}
+.splitValue{
+    display: inline-block;
+    padding-left: 10px;
+}
+.crossValue{
+    display: inline-block;
+    padding-left: 10px;
+}
+.knn>p{
+    padding-left: 18px;
+    padding-top: 15px;
+    padding-bottom: 0px;
+}
+.knnValue{
+    display: flex;
+    padding-left: 18px;
+}
+/* END CLASSIFICATION */
+
+/* CLUSTERING */
+#cluster_btn{
+    margin-top: -38px !important;
+}
+.scrollClusters>p{
+    display: block;
+}
+.scrollClusters{
+    height: 365px;
+    margin: 15px;
+    overflow-y: scroll;
+}
+.box__result{
+    border: solid black;
+    border-radius: 10px;
+    width: 735px;
+    height: 400px;
+    margin-top: -10px;
+}
+.box__result p{
+    padding-right: 115px;
+    margin: 12px;
+}
+.clusters>p{
+    padding-left: 18px;
+    padding-top: 15px;
+    padding-bottom: 0px;
+}
+.n_clusters{
+    display: flex;
+    padding-left: 18px;
+}
+.output>p{
+    padding-left: 18px;
+    padding-top: 15px;
+    padding-bottom: 0px;
+}
+.outputValue{
+    display: flex;
+    padding-left: 18px;
+}
+.box__model{
+    border: solid black;
+    border-radius: 10px;
+    width: 360px;
+    height: 250px;
+    margin-top: -10px;
+}
+.model{
+    margin-top: -275px;
+}

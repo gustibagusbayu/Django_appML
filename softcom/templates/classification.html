@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="method col-md-3">
+                <p>Select Method Classification</p>
+            </div>
+            <div class="method col-md-9">
+              <form action="{% url 'chooseMethod' %}" method="POST">
+                <div class="btn-group">
+                  {% csrf_token %}
+                  <select onchange="this.form.submit()" name="method" class="form-select" id="inputMethod">
+                    <option>Choose...</option>
+                    <option {% if method == '1' %} selected {% endif %} value="1">K-Nearest Neighbors</option>
+                    <option {% if method == '2' %} selected {% endif %} value="2">Naive Bayes</option>
+                  </select>
+                </div>
+              </form>
+              <form action="{% url 'classification' %}" method="POST">
+              <button class="btn btn-dark starts" type="button" id="file" onclick="this.form.submit()">Start</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="option col-md-4">
+                <p>Test Options</p>
+                <div class="box__option">
+                  {% csrf_token %}
+                  <div class="form-check">
+                    <input class="form-check-input radio" type="radio" value="1" name="validation" id="split" {% if mode == '1' %} checked {% endif %}>
+                    <label class="form-check-label" for="split">
+                      Percentage split data <span>%</span>
+                    </label>
+                    <div class="splitValue col-sm-3">
+                      <input type="text" name="splitValue" class="form-control" {% if splitValue %} value="{{ splitValue }}" {% endif %} >
+                    </div>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input radio" type="radio" value="2" name="validation" id="cross" {% if mode == '2' %} checked {% endif %}>
+                    <label class="form-check-label" for="cross">
+                      Cross-validation <span class="fold">folds</span>
+                    </label>
+                    <div class="crossValue col-sm-3">
+                      <input type="text" name="crossValue" class="form-control" {% if crossValue %} value="{{ crossValue }}" {% endif %}>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="results col-md-8">
+                <p>Classification Output</p>
+                <div class="box__results">
+                  <div class="scrollClass" id="resultPdf">
+                    {% if naiveBayes or knn %}
+                      <p>=== Run Information ===</p>
+                      <p>Name dataset : {{ name }}</p>
+                      <p>Instance : {{ rows }} rows</p>
+                      <p>Method : {{ nameMethod }}</p>
+                      {% if mode == '1' %}
+                        <p>Test mode : Percentage split data</p>
+                      {% elif mode == '2' %}
+                        <p>Test mode : Cross validation</p>
+                      {% endif %}
+                      {% if method == '1' %}
+                        {% if k %}
+                          <p>Number of K : {{ k }} </p>
+                        {% endif %}
+                      {% endif %}
+                      <br>
+                      <p>=== Final Classification ===</p>
+                      <p>Attributes :</p>
+                      {% for attribute in attributes %}
+                        <li>{{attribute}}</li>
+                      {% endfor %}
+                      <p>Fulldata : {{ rows }} data</p>
+                      {% if method == '1' %}
+                        <p>Accuracy : {{ knn }} % </p>
+                      {% endif %}
+                      {% if method == '2' %}
+                        <p>Accuracy : {{ naiveBayes }} % </p>
+                      {% endif %}
+                      <p>Confusion Matrix : </p>
+                      {% if confusion %}
+                        <img style="margin-top: -10px;" src="data:image/png;base64, {{confusion|safe}}">
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="models col-md-4">
+                <p>Create Models</p>
+                <div class="box__models">
+                  {% if method == '2' %}
+                  <div class="output">
+                    <p>Output Data</p>
+                    <div class="outputValue col-md-11">
+                      <select class="form-select" aria-label="Default select example" name="output">
+                        <option>Select output data</option>
+                        {% if headers %}
+                          {% for header in headers %}
+                            <option value="{{ header }}" {% if header == output %} selected {% endif %}>{{ header }}</option>
+                          {% endfor %}
+                        {% endif %}
+                      </select>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% if method == '1' %}
+                  <div class="knn">
+                    <p>Number of K</p>
+                    <div class="knnValue col-md-11">
+                      {% csrf_token %}
+                      <input type="text" class="form-control" name="knn" {% if k %} value="{{k}}" {% endif %}>
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </form>
+            <div class="col-md-8">
+                <button type="button" id="save" class="btn btn-dark save">Save The Results</button>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

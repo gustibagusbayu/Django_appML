@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="uploaded col-md-12">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="input-group mb-3">
+                        {% csrf_token %}
+                        <input type="file" class="form-control" name="document" id="nameFile">
+                        <button class="btn btn-dark" type="submit" id="file">Apply</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="info col-md-6">
+                <p>Information</p>
+                <div class="box__info">
+                    <p>File Name : {{ name }}</p>
+                    <p>Attributes : {{ attributes }}</p>
+                    <p>Row Data : {{ rows }}</p>
+                </div>
+            </div>
+            <div class="attributes col-md-6">
+                <p>Statistic Attributes</p>
+                <div class="box__attributes">
+                    <div class="scrollAble">
+                    <table class="table table_attr">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                {% if type != 'object' %}
+                                    <th>Minimum</th>
+                                    <th>Maximum</th>
+                                    <th>Mean</th>
+                                {% endif %}
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if zipped_data %}
+                                {% for head,type,max,min,mean in zipped_data %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ head }}</td>
+                                        {% if type != 'object' %}
+                                            <td>{{ min }}</td>
+                                            <td>{{ max }}</td>
+                                            <td>{{ mean }}</td>
+                                        {% else %}
+                                            <td> - </td>
+                                            <td> - </td>
+                                            <td> - </td>
+                                        {% endif %}
+                                        <td>{{ type }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="detail col-md-6">
+                <p>Attributes</p>
+                <!-- Large modal -->
+                <!-- Button trigger modal -->
+                <button type="button" class="badge bg-dark view" data-bs-toggle="modal" data-bs-target="#exampleModal">View Data</button>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">View Data</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="scrollAblee">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        {% if header %}
+                                            <th scope="col">No.</th>
+                                            {% for head in header %}
+                                                <th scope="col">{{ head }}</th>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if df %}
+                                        {% for datas in df %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                {% for data in datas %}
+                                                    <td>{{ data }}</td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!-- end modal -->
+                <button id="deleterows" class="badge bg-dark delete" type="submit" onclick="this.form.submit()">Delete Selected Atrributes</button>
+                <form method="POST" action="{% url 'checker_page' %}">
+                <!-- start form page -->
+                    <div class="box__detail">
+                        <div class="scroll">
+                            <table class="table table-striped selectedTable"id="table_details">
+                                <thead class="table-dark">
+                                    <th> </th>
+                                    <th>Name</th>
+                                </thead>
+                                <tbody>
+                                {% if header %}
+                                    {% for head in header %}
+                                        <tr>
+                                            {% csrf_token %}
+                                            <td> <input class="form-check-input header" type="checkbox" name="drop_header" value="{{head}}"></td>
+                                            <td id="headers">{{ head }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <p class="noted">*) Before choose method for processing data please choose feature data (except output/class data)</p>
+                <!-- radios -->
+                    {% csrf_token %}
+                    <div class="radio">
+                        <div class="form-check form-check-inline">
+                            <label><input class="form-check-input" type="radio" name="selected_method" value="1">Classification</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label><input class="form-check-input" type="radio" name="selected_method" value="2">Clustering</label>
+                        </div>
+                    </div>
+                    <!-- end radios -->
+                    <button type="submit" class="btn btn-dark select" id="select" onclick="this.form.submit()">Select</button>
+                </form>
+                <!-- end from page -->
+            </div>
+            <div class="chart col-md-6">
+                <canvas id="myChart" width="100px" height="53px"></canvas>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

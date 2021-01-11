@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="method col-md-3">
+                <p>Select Method Clustering</p>
+            </div>
+            <div class="method col-md-9">
+                <div class="btn-group">
+                  <select class="form-select" id="inputMethod">
+                    <option selected>Choose...</option>
+                    <option value="1">K-Means</option>
+                  </select>
+                </div>
+                <form action="{% url 'clustering' %}" method="POST">
+              <button class="btn btn-dark start" type="button" id="cluster_btn" onclick="this.form.submit()">Start</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="option col-md-4">
+                <p>Test Options</p>
+                <div class="box__option">
+                  <div class="form-check">
+                    <input class="form-check-input radio" type="radio" name="validation" id="split" disabled>
+                    <label class="form-check-label" for="split">
+                      Percentage split data <span>%</span>
+                    </label>
+                    <div class="splitValue col-sm-3">
+                      <input type="text" class="form-control" {% if splitValue %} value="{{ splitValue }}" {% endif %} >
+                    </div>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input radio" type="radio" name="validation" id="cross" disabled>
+                    <label class="form-check-label" for="cross">
+                      Cross-validation <span class="fold">folds</span>
+                    </label>
+                    <div class="crossValue col-sm-3">
+                      <input type="text" class="form-control" {% if crossValue %} value="{{ crossValue }}" {% endif %}>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="results col-md-8">
+                <p>Clustering Output</p>
+                <div class="box__result">
+                  <div class="scrollClusters" id="resultPdf">
+                    {% if clusters %}
+                      <p>=== Run Information ===</p>
+                      <p>Name dataset : {{ name }}</p>
+                      <p>Instance : {{ rows }} rows</p>
+                      <p>Method : K-Means Clustering</p> <br>
+                      <p>=== Clusters ===</p>
+                      {% for cluster in clusters %}
+                        <p>Cluster {{forloop.counter0}} : {{ cluster }} </p>
+                      {% endfor %}
+                      <br>
+                      <p>=== Final Clusters ===</p>
+                      <p>Attributes :</p>
+                      {% for feature in features %}
+                        <li>{{feature}}</li>
+                      {% endfor %}
+                      <p>Fulldata : {{ rows }} data</p>
+                      {% for cluster in clusters %}
+                        <p>Cluster {{forloop.counter0}} : {{ cluster }} </p>
+                      {% endfor %}
+                      <canvas id="chart" width="150px" height="50px"></canvas>
+                      {% if chart %}
+                        <img src="data:image/png;base64, {{chart|safe}}">
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="model col-md-4">
+                <p>Create Models</p>
+                <div class="box__model">
+                  <div class="clusters">
+                    <p>Number of Cluster</p>
+                    <div class="n_clusters col-sm-11">
+                      {% csrf_token %}
+                      <input type="text" class="form-control" name="nilai_k">
+                    </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <button type="button" id="save" class="btn btn-dark save">Save The Results</button>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
